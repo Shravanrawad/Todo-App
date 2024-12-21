@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Trash2, MoreHorizontal} from "lucide-react";
+import { Trash2, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Popover,
@@ -10,7 +10,13 @@ import {
 import { deleteTodo, editTodo } from "@/app/redux/services/todoSlice";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "./ui/input";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
@@ -55,7 +61,10 @@ function TodoCard({ todo }) {
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2">
-        <Badge variant="outline" className="text-xs sm:text-sm px-3 py-1 rounded-md">
+        <Badge
+          variant="outline"
+          className="text-xs sm:text-sm px-3 py-1 rounded-md"
+        >
           {todo.category}
         </Badge>
         <Badge
@@ -102,40 +111,53 @@ function TodoCard({ todo }) {
         </Popover>
       </div>
 
-     
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="p-10">
-          <DialogTitle>Edit Todo</DialogTitle>
-          <form onSubmit={handleSubmit(handleEditSubmit)} className="space-y-4">
+        <DialogContent className="p-6 sm:p-8 lg:p-12 w-full max-w-sm sm:max-w-md lg:max-w-2xl mx-auto">
+          <DialogTitle className="text-center text-lg lg:text-xl font-bold">
+            Edit Todo
+          </DialogTitle>
+
+          <form onSubmit={handleSubmit(handleEditSubmit)} className="space-y-6">
+           
             <div>
               <Input
                 placeholder="Title"
                 {...register("title", { required: "Title is required" })}
+                className="w-full"
               />
               {errors.title && (
-                <p className="text-red-500 text-sm">{errors.title.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.title.message}
+                </p>
               )}
             </div>
 
+            
             <div>
               <Input
                 placeholder="Description"
-                {...register("description", { required: "Description is required" })}
+                {...register("description", {
+                  required: "Description is required",
+                })}
+                className="w-full"
               />
               {errors.description && (
-                <p className="text-red-500 text-sm">{errors.description.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.description.message}
+                </p>
               )}
             </div>
 
-            <div className="flex gap-[69px]">
-              <div>
+          
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-8">
+              <div className="w-full lg:w-1/2">
                 <Controller
                   name="category"
                   control={control}
                   rules={{ required: "Category is required" }}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -147,18 +169,20 @@ function TodoCard({ todo }) {
                   )}
                 />
                 {errors.category && (
-                  <p className="text-red-500 text-sm">{errors.category.message}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.category.message}
+                  </p>
                 )}
               </div>
 
-              <div>
+              <div className="w-full lg:w-1/2">
                 <Controller
                   name="priority"
                   control={control}
                   rules={{ required: "Priority is required" }}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Priority" />
                       </SelectTrigger>
                       <SelectContent>
@@ -170,12 +194,15 @@ function TodoCard({ todo }) {
                   )}
                 />
                 {errors.priority && (
-                  <p className="text-red-500 text-sm">{errors.priority.message}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.priority.message}
+                  </p>
                 )}
               </div>
             </div>
 
-            <Button type="submit" className="w-full">
+          
+            <Button type="submit" className="w-full lg:w-auto lg:mx-auto">
               Save Changes
             </Button>
           </form>
